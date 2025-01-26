@@ -4,7 +4,9 @@
 
 I built this project to experiment with genetic algorithms and to visualize how the algorithm traverses a solution space.
 
-A car is simulated driving on a terrain in a 2D environment. You can choose how many parameters of the car you want the genetic algorithm to try to optimize (or to brute-force). If you choose exactly two parameters you will see a 2D texture show up whose pixels represent every solution in the solution space. The X and Y coordinates of each pixel represents the two parameters you selected, and the color of each pixel represents the fitness of each solution. If you choose to brute-force all possible solutions, every pixel in the texture will receive a value and you will see the entire solution space visualized.
+## How it works
+
+A car is simulated driving on a terrain in a 2D environment. You can choose how many parameters of the car you want the genetic algorithm to try to optimize (or to brute-force). If you choose exactly two parameters you will see a 2D texture show up whose pixels represent every solution in the solution space. The X and Y coordinates of each pixel represents the two parameters you selected, and the color of each pixel represents the fitness of each solution. If you choose to brute-force all possible solutions, every pixel in the texture will receive a value and you will see the entire solution space visualized. When you start the genetic algorithm, you can see how it moves around the solution space looking for the best solution.
 
 Fitness score is determined by how far the car is able to drive in a certain amount of time.
 
@@ -65,10 +67,6 @@ Follow these steps to build this project on Windows.
 - [ImGui](https://github.com/ocornut/imgui)
 - [ImPlot](https://github.com/epezent/implot)
 - [ini.h](https://github.com/mattiasgustavsson/libs/blob/main/ini.h)
-
-## Authors
-
-- [Christoffer Chiniquy](https://github.com/c-chiniquy)
 
 ## License
 
