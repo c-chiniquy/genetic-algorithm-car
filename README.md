@@ -2,7 +2,7 @@
 
 ## About the project
 
-I built this project to experiment with genetic algorithms and to visualize how the algorithm traverses a solution space.
+An experimental project that tries to visualize how solution spaces look like and how genetic algorithms traverse them.
 
 ## How it works
 
@@ -67,8 +67,4 @@ Follow these steps to build this project on Windows.
 - [ImGui](https://github.com/ocornut/imgui)
 - [ImPlot](https://github.com/epezent/implot)
 - [ini.h](https://github.com/mattiasgustavsson/libs/blob/main/ini.h)
-
-## License
-
-This project is placed in the public domain (and dual licensed under MIT). See the [LICENSE](LICENSE) file for details.
 
