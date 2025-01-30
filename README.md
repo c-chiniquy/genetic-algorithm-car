@@ -2,7 +2,7 @@
 
 ## About the project
 
-An experimental project that tries to visualize how solution spaces look like and how genetic algorithms traverse them.
+An experimental project for visualizing certain solution spaces and for seeing how a genetic algorithm traverses them.
 
 ## How it works
 
