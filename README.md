@@ -2,41 +2,35 @@
 
 ## About the project
 
-An experimental project for visualizing complex solution spaces and how a genetic algorithm traverses them.
+This is an experimental project about visualizing complex solution spaces and how a genetic algorithm traverses them. The chosen problem consists of a car driving on a rough terrain in 2D, and the parameters of the car is what makes up the solution space. The fitness of a solution is determined by how long the car is able to drive in a specified amount of time.
 
 ## How it works
 
-A car is simulated driving on a terrain in a 2D environment. You can choose how many parameters of the car you want the genetic algorithm to try to optimize (or to brute-force). If you choose exactly two parameters you will see a 2D texture show up whose pixels represent every solution in the solution space. The X and Y coordinates of each pixel represents the two parameters you selected, and the color of each pixel represents the fitness of each solution. If you choose to brute-force all possible solutions, every pixel in the texture will receive a value and you will see the entire solution space visualized. When you start the genetic algorithm, you can see how it moves around the solution space looking for the best solution.
-
-Fitness score is determined by how far the car is able to drive in a certain amount of time.
+You can select which car parameters you want the genetic algorithm to optimize. If you select between one and three parameters you will see a texture show up whose pixels represent every solution in the solution space. The coordinates of a pixel represent a the values of the selected parameters. The color represents the fitness. If you brute-force all solutions, every pixel in the texture will receive a value and this effectively visualizes the entire solution space. When you start the genetic algorithm, you will see how it moves around the solution space looking for the best solution.
 
 ## Features
 
 - Two types of vehicles:
   - Triangle Joint Car
   - Fixture Box Car
-- Multiple terrain types
-- You can select up to 19 parameters to optimize.
+- There are 19 car parameters you can select.
 - You can modify the min/max range of every parameter.
 - The genetic algorithm is configurable.
-- Can visualize the solution space of any 2 parameters you choose (by brute-forcing all possible configurations)
-- Supports saving and loading settings
+- Can visualize 1D, 2D and 3D solution spaces and save them as .png.
 
 ## Gallery
 
-| ![](images/fixture-box-car.png) | 
+| ![](images/car-types.png) | 
 |:--:| 
-| *A fixture box car.* |
+| *The two car types that are supported.* |
 
 | ![](images/picking-a-solution.gif) | 
 |:--:| 
-| *The solution space of two parameters (X and Y position of the chassis) have been visualized (seen in the black and white texture to the left). The texture portrays the fitness scores of every possible car configuration. You can use your cursor to select a car configuration from this texture, and see how well the car performs.* |
+| *The black and white texture is the solution space of two parameters (chassis XY pos). You can use your cursor to select a car configuration from this texture, and see how well the car performs.* |
 
-| ![](images/interesting-solution-spaces/zoom-far-away.png) | 
+| ![](images/zoomed-out-solution-space.gif) | 
 |:--:| 
-| *This is a visualization of another solution space. The two parameters that are visualized are the X and Y position of the chassis for a triangle joint car. I used a large parameter range which caused the solution space to look "zoomed out". This allows you to see the terrain itself inside the solution space.* |
-
-[Solution spaces can look quite interesting when visualized, here are more examples.](images/interesting-solution-spaces)
+| *This is a visualization of a 3D solution space. Three parameters are selected (chassis XY position and gravity). The parameter range of the XY chassis position is so large that it intersects with the terrain in certain places, which is why you can see a bit of terrain in this solution space. Solution spaces can look quite interesting when visualized.* |
 
 ## Build
 
