@@ -30,7 +30,7 @@ You can select which car parameters you want the genetic algorithm to optimize. 
 
 | ![](images/zoomed-out-solution-space.gif) | 
 |:--:| 
-| *This is a visualization of a 3D solution space. Three parameters are selected (chassis XY position and gravity). The parameter range of the XY chassis position is so large that it intersects with the terrain in certain places, which is why you can see a bit of terrain in this solution space. Solution spaces can look quite interesting when visualized.* |
+| *This is a visualization of a 3D solution space. Three parameters are selected (chassis XY position and radius). The parameter range of the XY chassis position is so large that it intersects with the terrain in certain places, which is why you can see a bit of terrain in this solution space. Solution spaces can look quite interesting when visualized.* |
 
 ## Build
 
