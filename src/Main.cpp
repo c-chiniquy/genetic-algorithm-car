@@ -735,13 +735,14 @@ void UpdateImgui()
 				edited |= ImGui::Combo("Engine type", (int*)&settings.car.engineType, engineTypes, IM_ARRAYSIZE(engineTypes));
 				edited |= ImGui::Checkbox("Invincible", &settings.car.isInvincible);
 				edited |= CustomImguiTripleDrag("Chassis #0", "X: %.1f", "Y: %.1f", "Radius: %.1f",
-					&settings.car.chassis0Pos.x, &settings.car.chassis0Pos.y, &settings.car.chassis0Radius, 0.05f, 0, 10);
+					&settings.car.chassis0Pos.x, &settings.car.chassis0Pos.y, &settings.car.chassis0Radius, 0.05f, -10, 10);
 				edited |= CustomImguiTripleDrag("Chassis #1", "X: %.1f", "Y: %.1f", "",
-					&settings.car.chassis1Pos.x, &settings.car.chassis1Pos.y, nullptr, 0.05f, 0, 10);
+					&settings.car.chassis1Pos.x, &settings.car.chassis1Pos.y, nullptr, 0.05f, -10, 10);
 				edited |= CustomImguiTripleDrag("Back Wheel", "X: %.1f", "Y: %.1f", "Radius: %.1f",
-					&settings.car.wheel0Pos.x, &settings.car.wheel0Pos.y, &settings.car.wheel0Radius, 0.05f, 0, 10);
+					&settings.car.wheel0Pos.x, &settings.car.wheel0Pos.y, &settings.car.wheel0Radius, 0.05f, -10, 10);
 				edited |= CustomImguiTripleDrag("Front Wheel", "X: %.1f", "Y: %.1f", "Radius: %.1f",
-					&settings.car.wheel1Pos.x, &settings.car.wheel1Pos.y, &settings.car.wheel1Radius, 0.05f, 0, 10);
+					&settings.car.wheel1Pos.x, &settings.car.wheel1Pos.y, &settings.car.wheel1Radius, 0.05f, -10, 10);
+				ImGui::PushItemWidth(98);
 				edited |= ImGui::DragFloat("Joint Motor Torque", &settings.car.jointMotorTorque, 1, 0, 1000);
 				edited |= ImGui::DragFloat("Target Motor Speed", &settings.car.targetMotorSpeed, 1, 0, 1000);
 				edited |= ImGui::DragFloat("Spring Frequency", &settings.car.springFreq, 0.1f, 0, 100);
@@ -750,6 +751,7 @@ void UpdateImgui()
 				edited |= ImGui::DragFloat("Chassis Density", &settings.car.chassisDensity, 0.1f, 0, 100);
 				edited |= ImGui::DragFloat("Wheel Density", &settings.car.wheelDensity, 0.1f, 0, 100);
 				edited |= ImGui::DragFloat("Wheel Friction", &settings.car.wheelFriction, 1, 0, 1000);
+				ImGui::PopItemWidth();
 				if (edited)
 				{
 					RespawnCar();
@@ -776,17 +778,23 @@ void UpdateImgui()
 			{
 				ImGui::SeparatorText("Terrain description");
 				bool edited = false;
+				ImGui::PushItemWidth(200);
 				edited |= ImGui::InputInt("Seed", (int*)&settings.terrain.seed);
 				const char* terrainTypes[] = { "Normal", "Big", "Flat", "Waves" };
 				edited |= ImGui::Combo("Terrain type", (int*)&settings.terrain.type, terrainTypes, IM_ARRAYSIZE(terrainTypes));
+				ImGui::PopItemWidth();
+				ImGui::PushItemWidth(98);
 				edited |= ImGui::DragInt("num chunks", (int*)&settings.terrain.numChunks, 1, 0, 10000);
 				edited |= ImGui::DragFloat("friction", &settings.terrain.friction, 0.01f, 0.01f, 50);
+				ImGui::PopItemWidth();
 				edited |= ImGui::DragFloatRange2("Chunk X", &settings.terrain.minChunkWidth, &settings.terrain.maxChunkWidth,
 					1, 0, 0, "Min: %.1f", "Max: %.1f");
 				edited |= ImGui::DragFloatRange2("Chunk Y", &settings.terrain.minChunkHeight, &settings.terrain.maxChunkHeight,
 					1, 0, 0, "Min: %.1f", "Max: %.1f");
 				edited |= CustomImguiXYDrag("First Chunk", &settings.terrain.firstChunkWidth, &settings.terrain.firstChunkHeight);
+				ImGui::PushItemWidth(98);
 				edited |= ImGui::DragFloat("scale", &settings.terrain.scale, 1, 1, 100);
+				ImGui::PopItemWidth();
 				if (edited)
 				{
 					RespawnTerrain();
@@ -1038,6 +1046,16 @@ void UpdateImgui()
 						bestGenome = genome;
 						isPaused = false;
 					}
+					if (fitnessTexture.IsLoaded() &&
+						fitnessTexture.GetNumDimensions() >= 1 &&
+						fitnessTexture.GetNumDimensions() <= 3)
+					{
+						ImGui::SameLine();
+						if (ImGui::Button("Clear fitness texture"))
+						{
+							fitnessTexture.ClearPixelValues();
+						}
+					}
 					if (appState == AppState::BruteForce)
 					{
 						ImGui::ProgressBar(float(fitnessTexture.GetPixelIndex(genome)) / float(fitnessTexture.GetTotalPixelCount()));
@@ -1049,12 +1067,14 @@ void UpdateImgui()
 			{
 				ImGui::SeparatorText("Algorithm parameters");
 				ImGui::InputInt("Seed##GA", (int*)&settings.GA.seed);
+				ImGui::PushItemWidth(98);
 				ImGui::DragInt("Generations", (int*)&settings.numGenerations, 1, 1, 10000);
 				ImGui::DragInt("Population size", (int*)&settings.GA.popSize, 1, 1, 10000);
 				ImGui::DragInt("Elites", (int*)&settings.GA.eliteCount, 1, 0, 100);
 				ImGui::DragFloat("Mutation probability", &settings.GA.mutationProb, 0.05f, 0, 1);
 				ImGui::DragFloat("Mutation size", &settings.GA.mutationStrength, 0.05f, 0, 1);
 				ImGui::DragFloat("Crossover probability", &settings.GA.crossoverProb, 0.05f, 0, 1);
+				ImGui::PopItemWidth();
 				if (ImGui::Button("Run genetic algorithm"))
 				{
 					if (GA.Load(settings.GA, settings.geneInterpreter.GetNumGenesEnabled(),
@@ -1062,7 +1082,6 @@ void UpdateImgui()
 					{
 						index_GA = 0;
 						genome = GA.GetIndividual(0);
-						fitnessTexture.DelayedUnload(context);
 						terrainIndex = 0;
 						appState = AppState::GeneticAlgorithm;
 						bestGenome = genome;
@@ -1165,6 +1184,72 @@ void UpdateImgui()
 						byte(floatColor.alpha * 255.f));
 				}
 
+				ImGui::SeparatorText("Save solution space texture");
+				{
+					uint32_t numDimensions = fitnessTexture.GetNumDimensions();
+					if (fitnessTexture.IsLoaded())
+					{
+						ImGui::Text(ig::ToString("Number of dimensions: ", numDimensions).c_str());
+					}
+
+					static bool saveSuccess = 0;
+					const std::string destFolder = Constants::savedImagesDirectory;
+					if (numDimensions == 1 || numDimensions == 2 || numDimensions == 3)
+					{
+						const char* strSingle = "Save solution space as .png";
+						const char* strMulti = "Save solution space as .png sequence";
+						uint32_t numImages = 1;
+						if (numDimensions == 3) numImages = fitnessTexture.GetTextureSize();
+						ImGui::Text(ig::ToString("Number of images to be saved: ", numImages).c_str());
+						if (ImGui::Button((numDimensions == 3) ? strMulti : strSingle))
+						{
+							saveSuccess = fitnessTexture.SaveToFile(destFolder, "image");
+							ImGui::OpenPopup("Save Image Result");
+						}
+					}
+					else
+					{
+						ImGui::Text("Must be 1, 2 or 3 dimensions to be able to save as .png.");
+					}
+					if (ImGui::Button("Open saved images folder"))
+					{
+						if (!ig::DirectoryExists(destFolder))
+						{
+							ig::CreateDirectory(destFolder);
+						}
+						std::string fullpath = ig::GetCurrentPath() + "/" + destFolder;
+						ShellExecuteA(context.GetWindowHWND(), "open", fullpath.c_str(), 0, 0, SW_SHOWNORMAL);
+					}
+
+					ImGui::SetNextWindowPos(ImGui::GetMainViewport()->GetCenter(), ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+					if (ImGui::BeginPopupModal("Save Image Result", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+					{
+						const std::string strFailed = ig::ToString("Failed to save image(s) to ", destFolder).c_str();
+						const std::string strSuccess = ig::ToString("Successfully saved image to ", destFolder).c_str();
+						const std::string strSuccessMulti = ig::ToString("Successfully saved image sequence to ", destFolder).c_str();
+						if (saveSuccess)
+						{
+							if (numDimensions == 3)
+							{
+								ImGui::Text(strSuccessMulti.c_str());
+							}
+							else
+							{
+								ImGui::Text(strSuccess.c_str());
+							}
+						}
+						else
+						{
+							ImGui::Text(strFailed.c_str());
+						}
+						if (ImGui::Button("OK", ImVec2(120, 0)))
+						{
+							ImGui::CloseCurrentPopup();
+						}
+						ImGui::EndPopup();
+					}
+				}
+
 				ImGui::EndTabItem();
 			}
 			ImGui::PopItemWidth();
@@ -1241,7 +1326,8 @@ void Draw()
 		batchRenderer.Begin(cmd);
 		{
 			// Draw fitness texture
-			fitnessTexture.Draw(cmd, batchRenderer, genome, defaultFont);
+			fitnessTexture.SetCurrentGenome(genome);
+			fitnessTexture.Draw(cmd, batchRenderer, defaultFont);
 
 			// Draw text
 			std::string text;
@@ -1291,6 +1377,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, in
 		ig::WindowSettings("Genetic algorithm car", 1280, 720, true, true),
 		ig::RenderSettings(ig::PresentMode::Immediate, ig::Format::BYTE_BYTE_BYTE_BYTE)))
 	{
+		mainloop.SetMinimizedWindowBehaviour(ig::MainLoop::MinimizedWindowBehaviour::SkipDraw);
 		mainloop.Run(context, Start, OnLoopExited, Draw, Update, OnEvent);
 	}
 

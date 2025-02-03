@@ -26,15 +26,17 @@ public:
 	// this way the old texture remains alive somewhere until the GPU is done with it.
 	void DelayedUnload(const ig::IGLOContext&);
 
+	void SetCurrentGenome(const Genome& currentGenome);
+
 	// Returns true if event is handled
 	bool OnEvent(ig::Event e);
-	void Draw(ig::CommandList& cmd, ig::BatchRenderer & r, const Genome& currentGenome, ig::Font& font);
+	void Draw(ig::CommandList& cmd, ig::BatchRenderer & r, ig::Font& font);
 
-	unsigned int GetNumDimensions() const { return numDimensions; }
-	unsigned int GetTextureSize() const { return textureSize; }
+	uint32_t GetNumDimensions() const { return numDimensions; }
+	uint32_t GetTextureSize() const { return textureSize; }
 	size_t GetTotalPixelCount()  const { return totalNumPixels; }
 	Genome GetHighlightedGenome() const { return highlightedGenome; }
-	bool HasHighlightedGenome() const { return highlighted; }
+	bool HasHighlightedGenome() const { return mouseOverTexture || mouseOverDepthSlider; }
 	int GetZoom() const { return zoom; }
 	void SetZoom(int zoom);
 
@@ -49,26 +51,34 @@ public:
 	void StepGenomeToNextPixel(Genome& in_out_genome);
 
 	void SetPixel(const Genome& coord, byte pixelValue);
+	void ClearPixelValues();
+
+	bool SaveToFile(const std::string& destFolderPath, const std::string& name);
 private:
 	bool isLoaded = false;
 
-	std::shared_ptr<ig::Texture> texture; // The fitness texture
+	std::vector<std::shared_ptr<ig::Texture>> textures; // Multiple textures only if three dimensional.
+	std::vector<byte> pixels; // The pixel values of the fitness texture
+
 	int zoom = 0;
 	uint32_t width = 0;
 	uint32_t height = 0;
-	unsigned int numDimensions = 0;
+	uint32_t depth = 0;
+	uint32_t numDimensions = 0;
 	uint32_t textureSize = 0; // Size of a texture dimension
-	std::vector<byte> pixels; // The pixel values of the fitness texture
 	ig::IntPoint textureLocation; // Where to draw the fitness texture
 	size_t totalNumPixels = 0;
+	Genome currentGenome;
 
 	// Mouse events
 	Genome highlightedGenome;
-	bool highlighted = false;
-	bool isPressed = false;
+	bool mouseOverTexture = false;
+	bool mouseOverDepthSlider = false;
+	bool textureIsPressed = false;
+	bool depthSliderIsPressed = false;
 	CallbackOnFitnessTextureMouseDown callbackOnMouseDown = nullptr;
 	CallbackOnFitnessTextureMouseUp callbackOnMouseUp = nullptr;
 
 	bool OnMouseMove(int32_t x, int32_t y);
-	static size_t CalculateTotalPixelCount(unsigned int numDimensions, size_t textureSize);
+	static size_t CalculateTotalPixelCount(uint32_t numDimensions, size_t textureSize);
 };

@@ -173,7 +173,7 @@ void GeneticAlgorithm::Mutate(Genome& in_out_genome)
 		if (mutation < 0)mutation = 0;
 		if (mutation > (int)fitnessTextureSize - 1) mutation = fitnessTextureSize - 1;
 
-		in_out_genome.values[v] = (byte)mutation;
+		in_out_genome.values[v] = (uint16_t)mutation;
 	}
 }
 

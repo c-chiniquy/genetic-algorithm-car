@@ -4,6 +4,7 @@ namespace Constants
 {
 	// File
 	const std::string settingsFilepath = "params.ini";
+	const std::string savedImagesDirectory = "saved-images/";
 
 	// Simulation
 	const ig::Vector2 carStartPos = ig::Vector2(2.0f, 2.0f);
