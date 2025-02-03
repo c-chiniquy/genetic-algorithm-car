@@ -22,7 +22,7 @@ You can select which car parameters you want the genetic algorithm to optimize. 
 
 | ![](images/car-types.png) | 
 |:--:| 
-| *The two car types that are supported.* |
+| *The two types of vehicles that are supported.* |
 
 | ![](images/picking-a-solution.gif) | 
 |:--:| 
