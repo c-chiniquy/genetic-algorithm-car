@@ -1,4 +1,4 @@
-# A 2D Car Genetic Algorithm Solution Space Visualizer
+# A 2D Car Solution Space Visualizer
 
 ## About the project
 
