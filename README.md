@@ -1,4 +1,4 @@
-# Genetic Algorithms and Solution Spaces
+# Visualizing Genetic Algorithms and Solution Spaces
 
 ## About the project
 
