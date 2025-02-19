@@ -1,4 +1,4 @@
-# A 2D Car Solution Space Visualizer
+# 2D Car Solution Space Visualizer
 
 ## About the project
 
