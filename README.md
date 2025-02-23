@@ -1,4 +1,4 @@
-# Visualizing Genetic Algorithms and Solution Spaces
+# 2D Car Optimization Sandbox
 
 ## About the project
 
